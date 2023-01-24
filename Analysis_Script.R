@@ -34,7 +34,7 @@ testData <- predict(preproc, testData)
 
 
 
-# 6) Building Models -----------------------------------------------------------------------------------------------------
+# Building Models -----------------------------------------------------------------------------------------------------
 # specifying the resampling ---------------------------------------------------------------
 cv10 <- trainControl(method = "repeatedcv", 
                      number = 10, 
@@ -46,7 +46,6 @@ cv10 <- trainControl(method = "repeatedcv",
 
 
 # first - testing ability of each protein individually. -------------------------
-#lets use GLM 
 set.seed(50) 
 ip10 <- train(Phenotype ~ IP_10, data=trainData, method='glm', metric = "ROC", trControl = cv10) #choosing our resampling method
 predicted_ip10<- predict(ip10, newdata = testData, type = "prob") # get probabilities of classifications
@@ -280,7 +279,6 @@ predicted_fspls_crp$correct <- as.factor(crp_test$Phenotype)
 confusionMatrix(predicted_fspls_crp$predicted, predicted_fspls_crp$correct)
 
 # ROC --------------------------------------------------------------------------------------------------------------------------------------------
-#ROC curves of these?
 roc(response =predicted_trail_crp$correct, predictor = predicted_trail_crp$DB, plot=TRUE, legacy.axes=TRUE, col="#276C69FF", lwd=4 , print.auc= TRUE, print.auc.x=50,print.auc.y=45, ci=TRUE, ci.type="bars", percent = TRUE)
 plot.roc(x = predicted_trail_lcn2_crp$correct, predictor = predicted_trail_lcn2_crp$DB, col="#e99787", lwd=4, add=TRUE, print.auc=TRUE, print.auc.x=50, print.auc.y=40, ci=TRUE, percent = TRUE)
 plot.roc(x = predicted_fspls_crp$correct, predictor = predicted_fspls_crp$DB, col="#F34A4A", lwd=4, add=TRUE, print.auc=TRUE, print.auc.x=50, print.auc.y=35, ci=TRUE, percent = TRUE)
